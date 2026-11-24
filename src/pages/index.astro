@@ -1,0 +1,260 @@
+---
+import { Picture } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import Section from "../components/Section.astro";
+import Header from "../components/Header.astro";
+import FloorRow from "../components/FloorRow.astro";
+import FutureLink from "../components/FutureLink.astro";
+import "../styles/page.css";
+import fontDisplay from "../assets/fonts/noto-sans-display-cyrillic-wdth-normal.woff2?url";
+
+import x75 from "../assets/img/mylabx75-1.jpg";
+import x75person from "../assets/img/mylabx75-2.jpg";
+import x9 from "../assets/img/x9-pic.jpg";
+import sigma from "../assets/img/mylab-sigma-1.jpg";
+import s1100a from "../assets/img/s1100a-1.jpg";
+import caremaster from "../assets/img/caremaster-1.jpg";
+import tanda from "../assets/img/tanda-ster.jpg";
+
+import {
+  NOTE, phones, email, mailtoRequest, hours, hoursFull, legalName, address, socials,
+  directions, brands, BRANDS_FIRST, cycle,
+} from "../data/site";
+
+const title = "Мед Ексім — медичне обладнання з монтажем і сервісом, Київ";
+const description = "Медичне обладнання світових виробників з 2012 року: постачання, монтаж, навчання персоналу й сервіс. Єдиний офіційний представник Esaote в Україні.";
+
+const heroRow = [
+  { img: tanda, alt: "Автоклав TANDA Steri", h: 170, line1: "Стерилізація", line2: "TANDA Steri", href: "#dir-sterilization" },
+  { img: caremaster, alt: "Система CareMaster для хірургії ран", h: 220, line1: "Хірургія", line2: "CareMaster", href: "#dir-surgery", desktopOnly: true },
+  { img: s1100a, alt: "Апарат штучної вентиляції легень S1100A", h: 340, line1: "Терапія", line2: "ШВЛ S1100A", href: "#dir-therapy" },
+  { img: x75, alt: "Ультразвукова система Esaote MyLab X75", h: 360, line1: "Діагностика", line2: "Esaote MyLab X75", href: "#dir-diagnostics", priority: true },
+];
+const esaoteRow = [
+  { img: x75person, alt: "Esaote MyLab X75 поруч із лікаркою — для масштабу", h: 400, line1: "Esaote", line2: "MyLab X75" },
+  { img: x9, alt: "Ультразвукова система Esaote MyLab X9", h: 330, line1: "Esaote", line2: "MyLab X9" },
+  { img: sigma, alt: "Портативна система Esaote MyLab Sigma", h: 170, line1: "Esaote", line2: "MyLab Sigma" },
+];
+
+const orgLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Мед Ексім",
+  legalName: "ТОВ «МЕД ЕКСІМ»",
+  foundingDate: "2012",
+  telephone: "+380965605555",
+  email,
+  address: { "@type": "PostalAddress", streetAddress: "вул. Назарівська, 1", addressLocality: "Київ", postalCode: "01032", addressCountry: "UA" },
+  contactPoint: [
+    { "@type": "ContactPoint", telephone: "+380965605555", contactType: "sales", areaServed: "UA", availableLanguage: ["uk"] },
+    { "@type": "ContactPoint", telephone: "+380445001912", contactType: "technical support", areaServed: "UA", availableLanguage: ["uk"] },
+    { "@type": "ContactPoint", telephone: "+380444675223", contactType: "customer service", areaServed: "UA" },
+    { "@type": "ContactPoint", telephone: "+380442344828", contactType: "customer service", areaServed: "UA" },
+  ],
+  sameAs: socials.map((s) => s.href),
+};
+---
+<Base lang="uk" title={title} description={description} mainRec="R-S02,R-S05,SE-R11,WA-R01">
+  <Fragment slot="head">
+    <link rel="preload" href={fontDisplay} as="font" type="font/woff2" crossorigin data-rec="R-S06" />
+    <script type="application/ld+json" set:html={JSON.stringify(orgLd)} />
+  </Fragment>
+
+  <Header slot="header" />
+
+  <!-- 1. Перший екран -->
+  <Section id="top" rec="R-U01,SE-R03,GA-R002,MA-R001" class="hero">
+    <div class="container hero__grid">
+      <h1 class="hero__title" data-rec="R-U02,SE-R02">Медичне обладнання світових виробників з монтажем, навчанням і сервісом</h1>
+      <p class="hero__trust">
+        <span>Єдиний офіційний представник <span class="brand-mark">Esaote</span> в Україні.</span>
+        <span>З 2012 року.</span>
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn--primary hero__cta" href="#request">Запросити комерційну пропозицію</a>
+        <a class="btn btn--outline hero__service" href="#service">Сервіс і ремонт</a>
+        <a class="hero__phone" href={phones.main.href}>
+          <span class="hero__phone-num num">{phones.main.label}</span>
+          <span class="hero__phone-hours">{hours}</span>
+        </a>
+      </div>
+    </div>
+    <div class="container hero__floor" data-rec="R-S02,R-S05,SE-R10">
+      <FloorRow items={heroRow} stage={360} label="Обладнання з каталогу: по одному апарату з чотирьох напрямів" class="floor--hero" />
+    </div>
+  </Section>
+
+  <!-- 2. Напрями обладнання -->
+  <Section id="directions" rec="R-U05,SE-R10" class="dirs">
+    <div class="container">
+      <div class="dirs__head">
+        <h2>Напрями обладнання</h2>
+        <p class="lead">Кількість позицій у кожному розділі каталогу. Ціни не публікуються: пропозицію готує менеджер.</p>
+      </div>
+      <ul class="mosaic">
+        {directions.map((d) => (
+          <li class:list={["tile", `tile--${d.tier}`, `tile--${d.id.replace("dir-", "")}`]} id={d.id}>
+            <h3 class="tile__name">{d.name}</h3>
+            {d.rows ? (
+              <ul class="tile__counts">
+                {d.rows.map((r) => <li><span class="tile__count tile__count--row num">{r.count}</span><span class="tile__part">{r.label}</span></li>)}
+              </ul>
+            ) : (
+              <p class={`tile__count tile__count--${d.tier} num`}>{d.count}<span class="visually-hidden">{d.count % 10 >= 2 && d.count % 10 <= 4 && (d.count % 100 < 12 || d.count % 100 > 14) ? " позиції" : " позицій"}</span></p>
+            )}
+            {d.detail && <p class="tile__detail">{d.detail}</p>}
+            {d.id === "dir-diagnostics" && (
+              <Picture src={sigma} formats={["webp"]} widths={[200, 400, 600]} sizes="(max-width: 767px) 50vw, 300px" alt="Портативна система Esaote MyLab Sigma" class="tile__img" loading="lazy" />
+            )}
+            <FutureLink note={NOTE} class="tile__more">Каталог розділу</FutureLink>
+            <svg class="tile__arrow" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </Section>
+
+  <!-- 3. Esaote -->
+  <Section id="esaote" class="esaote">
+    <div class="container">
+      <div class="esaote__grid">
+        <h2 class="esaote__title">Єдиний офіційний представник <span class="brand-mark">Esaote</span> в&nbsp;Україні</h2>
+        <div class="esaote__row">
+          <FloorRow items={esaoteRow} stage={400} label="Ультразвукові системи Esaote" />
+        </div>
+        <div class="esaote__text">
+          <p class="lead">Сервісна служба Мед Ексім має прямі договори зі спеціалізованими сервісними центрами виробника в Україні.</p>
+          <p>Інженери, які пройшли навчання на виробництвах, встановлюють систему і навчають персонал закладу працювати на ній.</p>
+          <div class="esaote__actions">
+            <a class="btn btn--primary" href="#request">Запросити пропозицію на Esaote</a>
+            <FutureLink note={NOTE}>Каталог Esaote, PDF</FutureLink>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- 4. Повний цикл -->
+  <Section id="cycle" rec="R-U07" class="cycle">
+    <div class="container cycle__grid">
+      <div class="cycle__aside">
+        <h2 class="cycle__title">Повний цикл: від поставки до сервісу</h2>
+        <div class="cycle__device">
+          <FloorRow items={[{ img: x75, alt: "Ультразвукова система Esaote MyLab X75", h: 360, line1: "Діагностика", line2: "Esaote MyLab X75" }]} stage={360} label="Апарат, з яким проходить цикл" />
+        </div>
+      </div>
+      <ol class="steps" data-steps>
+        {cycle.map((s, i) => (
+          <li class="step" data-step>
+            <h3 class="step__verb">{s.verb}</h3>
+            <p class="step__text">{s.text}</p>
+            {i === 3 && <p class="step__more"><FutureLink note={NOTE}>Навчання та події EDUMED</FutureLink></p>}
+          </li>
+        ))}
+      </ol>
+    </div>
+  </Section>
+
+  <!-- 5. Сервіс -->
+  <Section id="service" rec="R-U07" class="service on-dark">
+    <div class="container service__grid">
+      <h2 class="service__title">Сервіс і ремонт</h2>
+      <div class="service__main">
+        <p class="service__label">Сервісний центр</p>
+        <a class="service__num num" href={phones.service.href}>{phones.service.label}</a>
+        <p class="service__hours">{hoursFull}</p>
+      </div>
+      <div class="service__text">
+        <p class="lead">Гарантійне й післягарантійне обслуговування, ремонт медичного та лабораторного обладнання.</p>
+        <p>Прямі договори зі спеціалізованими сервісними центрами виробника в Україні та власний транспортний відділ. Для закладів, яким потрібна планова підтримка, є розширений пакет технічного обслуговування.</p>
+        <a class="btn btn--light service__btn" href={phones.service.href}>Зателефонувати в сервіс</a>
+      </div>
+    </div>
+  </Section>
+
+  <!-- 6. Бренди -->
+  <Section id="brands" rec="R-U08" class="brands">
+    <div class="container">
+      <div class="brands__head">
+        <h2>Бренди</h2>
+        <p class="lead">Виробники, обладнання яких є в каталозі Мед Ексім. Esaote — офіційне представництво.</p>
+      </div>
+      <ul class="brands__list" data-brands>
+        {brands.map((b, i) => (
+          <li class:list={["brands__item", { "brands__item--esaote": i === 0 }]} data-extra={i >= BRANDS_FIRST ? "" : undefined} lang={b.endsWith("Україна") ? "uk" : "en"}>{b}</li>
+        ))}
+      </ul>
+      <div class="brands__foot">
+        <button class="btn btn--outline brands__more" type="button" data-brands-more hidden aria-expanded="false">Показати всі бренди</button>
+        <FutureLink note={NOTE}>Пошук за брендом</FutureLink>
+      </div>
+    </div>
+  </Section>
+
+  <!-- 7. Як отримати пропозицію -->
+  <Section id="request" rec="R-U06" class="request on-accent">
+    <div class="container request__grid">
+      <div class="request__intro">
+        <h2>Як отримати комерційну пропозицію</h2>
+        <p class="lead">Ціни в каталозі не публікуються: вартість залежить від комплектації. Зателефонуйте або напишіть, і менеджер підготує пропозицію для вашого закладу.</p>
+      </div>
+      <div class="request__what">
+        <h3 class="request__h3">Що повідомити</h3>
+        <ol class="request__list">
+          <li>Тип обладнання або модель</li>
+          <li>Заклад і місто</li>
+          <li>Кількість</li>
+          <li>Чи потрібні монтаж і навчання персоналу</li>
+        </ol>
+      </div>
+      <div class="request__actions">
+        <a class="btn btn--light-accent request__btn" href={phones.main.href}>Зателефонувати <span class="num">{phones.main.label}</span></a>
+        <a class="btn btn--ghost-light request__btn" href={mailtoRequest}>Написати на {email}</a>
+        <p class="request__hours">{hoursFull}</p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- 8. Контакти + футер -->
+  <Section id="contacts" class="contacts" rec="R-U09,R-U10,SE-R06,SM-R009">
+    <div class="container">
+      <h2 class="contacts__title">Контакти</h2>
+      <div class="contacts__grid">
+        <div class="contacts__col">
+          <p class="contacts__legal">{legalName}</p>
+          <p>{address}</p>
+          <p class="contacts__muted">{hoursFull}</p>
+        </div>
+        <ul class="contacts__phones" aria-label="Телефони">
+          {[phones.main, phones.service, phones.office, phones.extra].map((p) => (
+            <li>
+              <a class="contacts__phone num" href={p.href}>{p.label}</a>
+              {p.role && <span class="contacts__role">{p.role}</span>}
+            </li>
+          ))}
+        </ul>
+        <div class="contacts__col">
+          <a class="contacts__mail ulink" href={`mailto:${email}`}>{email}</a>
+          <ul class="contacts__social" aria-label="Соціальні мережі" data-rec="SM-R008">
+            {socials.map((s) => <li><a class="ulink" href={s.href} rel="noopener" target="_blank">{s.name}<span class="visually-hidden"> (відкриється в новій вкладці)</span></a></li>)}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <footer slot="footer" class="footer">
+    <div class="container footer__grid">
+      <ul class="footer__links" aria-label="Інші розділи">
+        <li><FutureLink note={NOTE}>Про компанію</FutureLink></li>
+        <li><FutureLink note={NOTE}>Новини</FutureLink></li>
+        <li><FutureLink note={NOTE}>Акції</FutureLink></li>
+        <li><FutureLink note={NOTE}>Вакансії</FutureLink></li>
+        <li><FutureLink note={NOTE}>Матеріали для друку</FutureLink></li>
+        <li><FutureLink note={NOTE}>Політика конфіденційності</FutureLink></li>
+        <li><FutureLink note={NOTE}>RU-версія</FutureLink></li>
+      </ul>
+      <p class="footer__copy">© 2012–2026 {legalName}</p>
+    </div>
+  </footer>
+</Base>

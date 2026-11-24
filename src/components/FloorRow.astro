@@ -1,0 +1,100 @@
+---
+// Signature of the concept: real devices standing on one graphite floor line, captions under the line.
+// Heights are in "desktop px" (--h); they scale down fluidly with --u (0.42 at 390 → 1 at 1440).
+import { Picture } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+export interface Device {
+  img: ImageMetadata;
+  alt: string;
+  h: number;
+  line1: string;
+  line2: string;
+  href?: string;
+  priority?: boolean;
+  desktopOnly?: boolean;
+}
+interface Props { items: Device[]; stage: number; label: string; class?: string; reveal?: boolean; }
+const { items, stage, label, class: cls, reveal = true } = Astro.props;
+
+const widthsFor = (d: Device) => {
+  const w = Math.round((d.h * d.img.width) / d.img.height);
+  return { w, widths: [Math.round(w * 0.5), w, Math.min(d.img.width, w * 2)].filter((v, i, a) => a.indexOf(v) === i) };
+};
+---
+<ul class:list={["floor", cls]} aria-label={label} style={`--stage:${stage}`} data-floor>
+  {items.map((d, i) => {
+    const { w, widths } = widthsFor(d);
+    const inner = (
+      <>
+        <span class="floor__stage">
+          <Picture
+            src={d.img}
+            formats={["webp"]}
+            widths={widths}
+            sizes={`(max-width: 1023px) ${Math.round(w * 0.5)}px, ${w}px`}
+            alt={d.alt}
+            class="floor__img"
+            style={`--h:${d.h}`}
+            loading={d.priority ? "eager" : "lazy"}
+            fetchpriority={d.priority ? "high" : "auto"}
+            decoding={d.priority ? "sync" : "async"}
+          />
+        </span>
+        <span class="floor__cap">
+          <span class="floor__l1">{d.line1}</span>
+          <span class="floor__l2">{d.line2}</span>
+        </span>
+      </>
+    );
+    return (
+      <li
+        class:list={["floor__item", { "floor__item--desk": d.desktopOnly, "floor__item--static": d.priority }]}
+        data-floor-item={reveal && !d.priority ? "" : undefined}
+        style={`--i:${i}`}
+      >
+        {d.href ? <a class="floor__link" href={d.href}>{inner}</a> : <div class="floor__link">{inner}</div>}
+      </li>
+    );
+  })}
+</ul>
+
+<style>
+  .floor {
+    --u: clamp(0.42px, 0.2045px + 0.05524vw, 1px);
+    position: relative; list-style: none; margin: 0; padding: 0;
+    display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3);
+  }
+  /* the floor line */
+  .floor::before {
+    content: ""; position: absolute; left: 0; right: 0; top: calc(var(--stage) * var(--u)); height: var(--line);
+    background: var(--color-floor); transform-origin: left center;
+  }
+  .floor__item { min-width: 0; flex: 0 1 auto; }
+  .floor__link { display: grid; color: var(--color-text); text-decoration: none; }
+  .floor__stage { height: calc(var(--stage) * var(--u)); display: flex; align-items: flex-end; justify-content: flex-start; }
+  .floor__stage :global(picture) { display: contents; }
+  .floor__stage :global(.floor__img) {
+    height: calc(var(--h) * var(--u)); width: auto; max-width: 100%; object-fit: contain; object-position: left bottom;
+  }
+  .floor__cap { display: grid; gap: 2px; padding-top: var(--space-2); }
+  .floor__l1 { font-size: var(--fs-small); color: var(--color-muted); line-height: 1.3; }
+  .floor__l2 {
+    position: relative; justify-self: start;
+    font-family: var(--font-display); font-stretch: var(--stretch-display); font-weight: 600; font-size: 1.125rem; line-height: 1.2;
+  }
+  a.floor__link .floor__l2::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 1px; background: currentColor;
+    transform: scaleX(0); transform-origin: left; transition: transform var(--dur-fast) var(--ease-out);
+  }
+  a.floor__link:hover .floor__l2::after, a.floor__link:focus-visible .floor__l2::after { transform: scaleX(1); }
+  a.floor__link:focus-visible { outline-offset: 6px; }
+
+  @media (max-width: 1023px) {
+    .floor { gap: var(--space-2); }
+    .floor__item--desk { display: none; }
+    .floor__l2 { font-size: 1rem; }
+    .floor__l1 { font-size: 0.8125rem; }
+  }
+
+</style>

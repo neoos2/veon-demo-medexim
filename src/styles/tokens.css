@@ -1,0 +1,125 @@
+/* Hallmark · shape: header + hero row + mosaic + product row + sticky cycle + bands + footer · genre: modern-minimal · theme: custom · job: buy+hire · idea: "Ряд на одній підлозі: реальні апарати клієнта стоять на одній лінії підлоги, а кожен наступний блок показує, що Мед Ексім робить із ними далі" · vibe: "чисто, технічно, предметно, спокійно, по-інженерному"
+ * paper: #FFFFFF · accent: #D10A10 · display: Noto Sans Display (wdth 75) · body: Spectral · hero: H1 над рядом справжніх апаратів на графітовій лінії підлоги, червона дія і сервіс поруч · nav: sticky bar, 6 anchors + phone + request button · footer: white contacts with phone roles and requisites · imagery: the product · signature: тонка графітова лінія підлоги, на якій стоять справжні апарати
+ * axes: white/condensed-grotesk/brand-red · posture: restrained · surface: absolute · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: E (expression), the floor line and the red request field carry it, no decoration added */
+/* Hallmark · waive 7b · concept.md colors: paper #FFFFFF · the catalogue photos are JPG shot on pure white; a tinted paper would show every photo as a box */
+/* Hallmark · answer F4 · one red filled action per screen; the white fills live only on the graphite service band and the red request field, where red cannot sit */
+/* Hallmark · waive 39b · concept.md «Кнопки»: основна 56 px (48 на 390) · B2B buyers act from a desktop first screen; the larger red action is the page's single focal control */
+/* Line 1 of this file is the Hallmark stamp (docs/process/hallmark.md); waivers go right below it. */
+
+/* Fonts: self-hosted woff2 (SIL OFL 1.1, licences in src/assets/fonts), Cyrillic + Latin subsets only. */
+@font-face {
+  font-family: "Noto Sans Display";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  font-stretch: 62.5% 100%;
+  src: url("../assets/fonts/noto-sans-display-cyrillic-wdth-normal.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Noto Sans Display";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  font-stretch: 62.5% 100%;
+  src: url("../assets/fonts/noto-sans-display-latin-wdth-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("../assets/fonts/spectral-cyrillic-400-normal.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("../assets/fonts/spectral-latin-400-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url("../assets/fonts/spectral-cyrillic-600-normal.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url("../assets/fonts/spectral-latin-600-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Client design tokens — only from design/concept.md (veon-concept: colors, fonts). */
+:root {
+  /* colour roles */
+  --color-bg: #FFFFFF;
+  --color-surface: #F2F3F4;
+  --color-text: #1C1B1A;
+  --color-muted: #5B5F62;
+  --color-accent: #D10A10;
+  --color-accent-hover: #A8070C;
+  --color-on-accent: #FFFFFF;
+  --color-accent-ink: var(--color-on-accent);
+  --color-inverse-bg: #1C1B1A;
+  --color-inverse-muted: #B9BDC0;
+  --color-border: #D5D8DA;
+  --color-floor: #1C1B1A;
+
+  /* type */
+  --font-display: "Noto Sans Display", "Arial Narrow", sans-serif;
+  --font-body: "Spectral", Georgia, serif;
+  --stretch-display: 75%;
+  /* scale 390 → 1440: 34/76 · 32/56 · 24/32 · 18/20 · 16/17 · 14 */
+  --fs-h1: clamp(2.125rem, 1.15rem + 4vw, 4.75rem);
+  --fs-h2: clamp(2rem, 1.443rem + 2.286vw, 3.5rem);
+  --fs-h3: clamp(1.5rem, 1.314rem + 0.762vw, 2rem);
+  --fs-lead: clamp(1.125rem, 1.079rem + 0.19vw, 1.25rem);
+  --fs-body: clamp(1rem, 0.977rem + 0.095vw, 1.0625rem);
+  --fs-small: 0.875rem;
+  /* mosaic numbers: 72/120 · 48/72 · 36/48 · 28/32 */
+  --fs-num-xl: clamp(4.5rem, 3.386rem + 4.571vw, 7.5rem);
+  --fs-num-l: clamp(3rem, 2.443rem + 2.286vw, 4.5rem);
+  --fs-num-m: clamp(2.25rem, 1.971rem + 1.143vw, 3rem);
+  --fs-num-s: clamp(1.75rem, 1.657rem + 0.381vw, 2rem);
+  --fs-service: clamp(2.5rem, 1.943rem + 2.286vw, 4rem);
+
+  /* grid and rhythm (multiples of 8) */
+  --container: 1312px;
+  --gutter: 20px;
+  --gap: 16px;
+  --space: var(--gutter);
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-6: 48px;
+  --space-8: 64px;
+  --block: 80px;
+  --inner: 32px;
+  --header-h: 60px;
+  --btn-h: 48px;
+  --radius: 2px;
+  --line: 1px;
+
+  /* motion */
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --dur: 500ms;
+  --dur-fast: 200ms;
+  --dur-press: 120ms;
+}
+@media (min-width: 768px) {
+  :root { --gutter: 32px; --gap: 24px; }
+}
+@media (min-width: 1024px) {
+  :root { --gutter: 64px; --block: 128px; --inner: 48px; --header-h: 72px; --btn-h: 56px; }
+}

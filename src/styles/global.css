@@ -1,0 +1,92 @@
+/* Technical base (demo-base) + client typography. Colours and fonts only through tokens.css. */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; overflow-x: clip; }
+body {
+  overflow-x: clip;
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  text-rendering: optimizeLegibility;
+}
+img, video, svg { display: block; max-width: 100%; height: auto; }
+h1, h2, h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-stretch: var(--stretch-display);
+  font-weight: 700;
+  line-height: 1.04;
+  overflow-wrap: break-word;
+  min-width: 0;
+  text-wrap: balance;
+}
+h2 { font-size: var(--fs-h2); font-weight: 650; }
+h3 { font-size: var(--fs-h3); font-weight: 600; line-height: 1.1; }
+p { margin: 0; text-wrap: pretty; }
+ul, ol { margin: 0; padding: 0; }
+a { color: inherit; }
+::selection { background: var(--color-accent); color: var(--color-accent-ink); }
+html { scrollbar-color: var(--color-muted) var(--color-surface); }
+.num { font-family: var(--font-display); font-stretch: var(--stretch-display); font-variant-numeric: lining-nums tabular-nums; }
+
+/* Focus: graphite ring with a white gap on light surfaces; white ring on red and graphite bands. Instant. */
+:focus-visible { outline: 2px solid var(--color-text); outline-offset: 2px; box-shadow: 0 0 0 2px var(--color-bg); }
+.on-dark :focus-visible, .on-accent :focus-visible { outline-color: var(--color-on-accent); box-shadow: none; }
+
+.skip-link { position: absolute; left: 1rem; top: -100px; z-index: 100; padding: var(--space-2) var(--space-3); background: var(--color-text); color: var(--color-bg); font-family: var(--font-display); }
+.skip-link:focus { top: 1rem; }
+.container { width: min(100% - 2 * var(--gutter), var(--container)); margin-inline: auto; }
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Reveal hook (src/scripts/reveal.ts): hidden only when scripting runs. */
+[data-reveal] { transition: opacity var(--dur) var(--ease-out), transform var(--dur) var(--ease-out); transition-delay: var(--reveal-delay, 0ms); }
+.js [data-reveal]:not(.is-visible) { opacity: 0; transform: translateY(12px); }
+[id] { scroll-margin-top: var(--header-h, 0px); }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-1);
+  min-height: var(--btn-h); padding: 0 var(--space-3);
+  border: 1.5px solid transparent; border-radius: var(--radius);
+  font-family: var(--font-display); font-stretch: var(--stretch-display); font-weight: 600; font-size: 1.125rem; line-height: 1.1;
+  text-decoration: none; text-align: center; white-space: nowrap; cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), transform var(--dur-press) var(--ease-out);
+}
+.btn:active { transform: scale(.98); }
+.btn:disabled, .btn[aria-disabled="true"] { opacity: .4; cursor: not-allowed; }
+.btn:disabled:active { transform: none; }
+.btn--primary { background: var(--color-accent); color: var(--color-accent-ink); }
+.btn--primary:hover { background: var(--color-accent-hover); }
+.btn--outline { border-color: var(--color-text); color: var(--color-text); background: var(--color-bg); }
+.btn--outline:hover { background: var(--color-text); color: var(--color-bg); }
+.btn--light { background: var(--color-bg); color: var(--color-text); }
+.btn--light:hover { background: var(--color-surface); }
+.btn--light-accent { background: var(--color-bg); color: var(--color-accent); }
+.btn--light-accent:hover { background: var(--color-surface); color: var(--color-accent-hover); }
+.btn--ghost-light { border-color: var(--color-on-accent); color: var(--color-on-accent); background: transparent; }
+.btn--ghost-light:hover { background: var(--color-on-accent); color: var(--color-accent); }
+
+/* Text link with an underline that grows on hover / focus */
+.ulink { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
+.ulink:hover { text-decoration-thickness: 2px; }
+
+/* FutureLink: inactive future page with a note on hover and focus */
+.future-link { position: relative; display: inline-flex; align-items: center; cursor: default; color: var(--color-muted); text-decoration: underline dotted; text-decoration-thickness: 1px; text-underline-offset: .25em; }
+.future-link:focus-visible { outline: 2px solid currentColor; }
+.future-link__note[aria-hidden="true"] {
+  position: absolute; left: 0; bottom: calc(100% + .5rem); transform: translateY(4px);
+  white-space: nowrap; padding: .35rem .6rem; font-family: var(--font-body); font-size: var(--fs-small); font-weight: 400; line-height: 1.2; font-stretch: normal;
+  background: var(--color-text); color: var(--color-bg); border-radius: var(--radius);
+  opacity: 0; pointer-events: none; transition: opacity var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out); z-index: 20;
+}
+.future-link:hover .future-link__note, .future-link:focus-visible .future-link__note { opacity: 1; transform: none; }
+.on-dark .future-link, .on-accent .future-link { color: var(--color-inverse-muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; transition-delay: 0ms !important; }
+  .js [data-reveal]:not(.is-visible) { opacity: 1; transform: none; }
+  .btn:active { transform: none; }
+}
